@@ -6,57 +6,151 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Express - Redis - Mongodb</title>
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
-
     <script src="https://cdn.tailwindcss.com"></script>
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    colors: {
-                        clifford: '#da373d',
-                    }
-                }
-            },
-            colors: {
-                transparent: 'transparent',
-                current: 'currentColor',
-                black: colors.black,
-                white: colors.white,
-                gray: colors.gray,
-                emerald: colors.emerald,
-                indigo: colors.indigo,
-                yellow: colors.yellow,
-                primary: { "50": "#f0f9ff", "100": "#e0f2fe", "200": "#bae6fd", "300": "#7dd3fc", "400": "#38bdf8", "500": "#0ea5e9", "600": "#0284c7", "700": "#0369a1", "800": "#075985", "900": "#0c4a6e" },
-                'blue-light': '#91D7F2',
-                'blue-dark': '#0C3C59',
-                'light': '#EBF1F2',
-                'light-tint1': '#ebf1f180',
-                'orange': '#F2594B',
-                'yellow-dark': '#FFA500',
-                'yellow-light': '#FFFFE0',
-                'dark': '#121212',
-                'gray-light': '#F8F8F8',
-                'green': '#128c7e',
-                'beige': '#fff',
-                'beige-light': '#efefefb5',
-                'gray': '#909090',
-                'gray-tint-2': '#00000020',
-                'dark-tint-1': '#4c5265',
-            },
-            fontFamily: {
-                'roboto': ['Roboto', 'sans-serif'],
-                'alfa-slab': ['"Alfa Slab One"', 'sans-serif'],
-                'ubuntu': ['Ubuntu', 'sans-serif'],
-                'title': ['Belanosima', 'sans-serif'],
-                'title-1': ['Merriweather Sans', 'sans-serif']
-            }
-        }
-    </script>
+
 </head>
 
 <body>
-    <h1 class="font-ubuntu text-orange">Proxy HTML</h1>
+    <h1 class="flex justify-center text-center text-4xl text-bold m-10">Proxy HTML</h1>
+    <div class="flex justify-around mx-auto">
+        <div >
+            <h1 class="text-2xl text-bold m-10 underline">Users : </h1>
 
+            <div class="flex flex-col justify-around my-10">
+                <div class="flex flex-row">
+                    <button onclick="getUserswithoutrediscash(10)"
+                        class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">
+                        Get Users without redis cash : 
+                    </button>
+                    <h3 id="GetUserswithoutrediscash"></h3>
+
+                </div>
+                <div class="flex flex-row">
+                    <button onclick="getUsersUsingRediscash(10)"
+                        class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">
+                        Get Users using redis cash : 
+                    </button>
+                    <h3 id="GetUsersUsingRedisCash"></h3>
+
+                </div>
+                <div class="flex flex-row">
+                    <button onclick="getUsersFromJsonplaceholder(10)"
+                        class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">
+                        Get Users from jsonplaceholder.typicode.com : 
+                    </button>
+                    <h3 id="GetUsersFromJsonplaceholder"></h3>
+
+                </div>
+
+            </div>
+        </div>
+        <div>
+            <h1 class="text-2xl text-bold m-10  underline">Posts : </h1>
+
+            <div class="flex flex-col justify-around">
+                <div class="flex flex-row">
+                    <button onclick="getPostswithoutrediscash(10)"
+                        class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">
+                        Get Posts without redis cash :
+                    </button>
+                    <h3 id="GetPostswithoutrediscash"></h3>
+                </div>
+                <div class="flex flex-row">
+                    <button onclick="getPostsUsingRediscash(10)"
+                        class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">
+                        Get Posts using redis cash :
+                    </button>
+                    <h3 id="GetPostsUsingRedisCash"></h3>
+
+                </div>
+                <div class="flex flex-row">
+                    <button onclick="getPostsFromJsonplaceholder(10)"
+                        class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">
+                        Get Posts from jsonplaceholder.typicode.com :
+                    </button>
+                    <h3 id="GetPostsFromJsonplaceholder"></h3>
+
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+
+
+    <script>
+        var GetUserswithoutrediscash = document.getElementById('GetUserswithoutrediscash');
+        var GetUsersUsingRedisCash = document.getElementById('GetUsersUsingRedisCash');
+        var GetUsersFromJsonplaceholder = document.getElementById('GetUsersFromJsonplaceholder');
+        var GetPostswithoutrediscash = document.getElementById('GetPostswithoutrediscash');
+        var GetPostsUsingRedisCash = document.getElementById('GetPostsUsingRedisCash');
+        var GetPostsFromJsonplaceholder = document.getElementById('GetPostsFromJsonplaceholder');
+
+
+        async function getUserswithoutrediscash(number) {
+            let startTime = Date.now();
+            const promises = new Array(number)
+                .fill(1)
+                .map((_, i) => fetch('http://localhost:3000/users'));
+            const reponses = await Promise.all(promises);
+            let endTime = Date.now();
+            console.log(startTime, endTime, endTime - startTime, reponses);
+            GetUserswithoutrediscash.innerHTML = endTime - startTime + ' ms';
+        }
+
+        async function getUsersUsingRediscash(number) {
+            let startTime = Date.now();
+            const promises = new Array(number)
+                .fill(1)
+                .map((_, i) => fetch('http://localhost:3000/users/usingcash'));
+            const reponses = await Promise.all(promises);
+            let endTime = Date.now();
+            console.log(startTime, endTime, endTime - startTime, reponses);
+            GetUsersUsingRedisCash.innerHTML = endTime - startTime + ' ms';
+        }
+        async function getUsersFromJsonplaceholder(number) {
+            let startTime = Date.now();
+            const promises = new Array(number)
+                .fill(1)
+                .map((_, i) => fetch('https://jsonplaceholder.typicode.com/users'));
+            const reponses = await Promise.all(promises);
+            let endTime = Date.now();
+            console.log(startTime, endTime, endTime - startTime, reponses);
+            GetUsersFromJsonplaceholder.innerHTML = endTime - startTime + ' ms';
+        }
+
+        async function getPostswithoutrediscash(number) {
+            let startTime = Date.now();
+            const promises = new Array(number)
+                .fill(1)
+                .map((_, i) => fetch('http://localhost:3000/posts'));
+            const reponses = await Promise.all(promises);
+            let endTime = Date.now();
+            console.log(startTime, endTime, endTime - startTime, reponses);
+            GetPostswithoutrediscash.innerHTML = endTime - startTime + ' ms';
+        }
+
+        async function getPostsUsingRediscash(number) {
+            let startTime = Date.now();
+            const promises = new Array(number)
+                .fill(1)
+                .map((_, i) => fetch('http://localhost:3000/users/usingcash'));
+            const reponses = await Promise.all(promises);
+            let endTime = Date.now();
+            console.log(startTime, endTime, endTime - startTime, reponses);
+            GetPostsUsingRedisCash.innerHTML = endTime - startTime + ' ms';
+        }
+        async function getPostsFromJsonplaceholder(number) {
+            let startTime = Date.now();
+            const promises = new Array(number)
+                .fill(1)
+                .map((_, i) => fetch('https://jsonplaceholder.typicode.com/posts'));
+            const reponses = await Promise.all(promises);
+            let endTime = Date.now();
+            console.log(startTime, endTime, endTime - startTime, reponses);
+            GetPostsFromJsonplaceholder.innerHTML = endTime - startTime + ' ms';
+        }
+    </script>
 </body>
 
 </html>
