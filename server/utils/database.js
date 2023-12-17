@@ -15,7 +15,7 @@ export async function connectToDB() {
     await mongoose
         .connect(uri, connectionParams)
         .then(() => {
-            console.info('Connected to the DB');
+            console.log('Connected to the DB');
         })
         .catch((e) => {
             console.log('error while connecting to DB', e.message);

@@ -16,10 +16,7 @@ app.use(express.static('./server/static'));
 async function startApp() {
     try {
         const dbConnection = await connectToDB();
-        // Use 'dbConnection' for database operations or other tasks
-        // Example: dbConnection.model('YourModel').find({});
 
-        console.log('Database connection established successfully!');
     } catch (error) {
         console.error('Error in the application:', error);
     }

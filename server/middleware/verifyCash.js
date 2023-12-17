@@ -4,16 +4,18 @@ import dotenv from 'dotenv';
 dotenv.config(); // Load environment variables from .env file
 
 
-const client = createClient({
-    password: process.env.REDIS_PASSWORD,
-    socket: {
-        host: process.env.REDIS_HOST,
-        port: process.env.REDIS_PORT
-    }
-});
+// const client = createClient({
+//     password: process.env.REDIS_PASSWORD,
+//     socket: {
+//         host: process.env.REDIS_HOST,
+//         port: process.env.REDIS_PORT
+//     }
+// });
+
+const client = createClient();
 
 
-function verifyCash(req, res, next) {
+export async function verifyCash(req, res, next) {
     try {
         const key = req.originalUrl;
 
@@ -26,7 +28,7 @@ function verifyCash(req, res, next) {
 
             if (reply) {
                 const data = JSON.parse(reply);
-                res.status(200).json(data); 
+                res.status(200).send(data); 
             } else {
                 next();
             }
@@ -37,4 +39,4 @@ function verifyCash(req, res, next) {
     }
 }
 
-module.exports = verifyCash;
+
