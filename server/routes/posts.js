@@ -6,22 +6,32 @@ const router = express.Router();
 const baseURL = "https://jsonplaceholder.typicode.com";
 
 /* GET all posts */
-router.get('/', async function (req, res) {
+router.get('/', verifyCash, async function (req, res) {
     try {
         const posts = await Post.find({});
-        
+
         const postsWithComments = await Promise.all(
             posts.map(async (post) => {
                 const comments = await Comment.find({ postId: post.id });
-                return { ...post.toObject(), comments }; 
+                return { ...post.toObject(), comments };
             })
         );
+        client.setex(req.originalUrl, 6000, JSON.stringify(postsWithComments), (err, reply) => {
+            if (err) {
+                console.error(err);
+                res.status(500).send('Error while storing data in Redis');
+            } else {
+                console.log('Data stored in Redis');
+                res.status(200).json(postsWithComments);
+            }
+        });
 
-        res.status(200).json(postsWithComments);
+
     } catch (error) {
         res.status(500).send({ error: error.message });
     }
 });
+
 /* GET a single post by ID */
 router.get('/:id', async function (req, res, next) {
     const id = req.params.id;

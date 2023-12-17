@@ -6,10 +6,18 @@ const router = express.Router();
 const baseURL = "https://jsonplaceholder.typicode.com";
 
 /* GET all users */
-router.get('/', async function (req, res, next) {
+router.get('/', verifyCash, async function (req, res) {
     try {
         const users = await User.find({});
-        res.status(200).json(users);
+        client.setex(req.originalUrl, 6000, JSON.stringify(users), (err, reply) => {
+            if (err) {
+                console.error(err);
+                res.status(500).send('Error while storing data in Redis');
+            } else {
+                console.log('Data stored in Redis');
+                res.status(200).json(users);
+            }
+        });
     } catch (error) {
         res.status(500).send({ error: error.message });
     }

@@ -18,8 +18,5 @@
     "mongoose": "^8.0.3",
     "nodeman": "^1.1.2",
     "redis": "^4.6.11"
-  },
-  "devDependencies": {
-    "tailwindcss": "^3.3.6"
   }
 }
